@@ -1,0 +1,88 @@
+﻿@model List<Post>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row tm-row">
+    @foreach (Post post in Model as List<Post>)
+    {
+        <article class="col-12 col-md-6 tm-post">
+            <hr class="tm-hr-primary">
+            <a asp-route="post-single" asp-route-slug ="@post.Slug" class="effect-lily tm-post-link tm-pt-60">
+                <div class="tm-post-link-inner">
+                    <img src="~/uploads/posts/@post.Image" alt="Image" class="img-fluid">
+                </div>
+                <h2 class="tm-pt-30 tm-color-primary tm-post-title">@post.Title</h2>
+            </a>
+            <p class="tm-pt-30">
+                @post.ShortDesc
+            </p>
+            <div class="d-flex justify-content-between tm-pt-45">
+                <span class="tm-color-primary">@(string.Join(".",post.TagPosts.Select(x=>x.Tag.Name).ToArray()))</span>
+                <span class="tm-color-primary">@post.Date.ToString("MMMM dd.yyyy")</span>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between">
+                <span>@post.Comment.Where(x=>x.Accepted ==true).Count() comments</span>
+                <span>by Admin Ayxan</span>
+            </div>
+        </article>
+    }
+</div>
+<div class="row tm-row tm-mt-100 tm-mb-75">
+    <div class="tm-prev-next-wrapper">
+        <a asp-route-page="@(ViewBag.Page - 1)"
+           class="mb-2 tm-btn tm-btn-primary tm-prev-next @(ViewBag.Page == 1 ? "disabled" : "") tm-mr-20"
+           id="prevLink">Prev</a>
+        <a asp-route-page="@(ViewBag.Page + 1)"
+           class="mb-2 tm-btn tm-btn-primary tm-prev-next @(ViewBag.Page == Math.Ceiling((decimal)ViewBag.Count/6) ? "disabled" : "")"
+           id="nextLink">Next</a>
+    </div>
+    <div class="tm-paging-wrapper">
+        <span class="d-inline-block mr-3">Page</span>
+        <nav class="tm-paging-nav d-inline-block">
+            <ul>
+               @for (int i = 1; i <= Math.Ceiling((decimal)ViewBag.Count / 6) ; i++)
+                {
+                    <li class="tm-paging-item @(ViewBag.Page == i ? "active" : "" )">
+                        <a asp-route-page="@i" class="mb-2 tm-btn tm-paging-link">@i</a>
+                    </li>
+                }
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<script>
+    // Bağlantıyı bulma
+    var prevLink = document.getElementById("prevLink");
+
+    // Bağlantıya tıklanabilirlik eklemek için bir click olayı dinleyicisi ekleyin
+    prevLink.addEventListener("click", function (event) {
+        // Eğer bağlantı "disabled" sınıfına sahipse
+        if (prevLink.classList.contains("disabled")) {
+            // Kullanıcıya uyarı ver
+            event.preventDefault(); // Bağlantının tıklanmasını engelle
+            alert("Page NotFound");
+        }
+    });
+</script>
+
+<script>
+    // Bağlantıyı bulma
+    var nextLink = document.getElementById("nextLink");
+
+    // Bağlantıya tıklanabilirlik eklemek için bir click olayı dinleyicisi ekleyin
+    nextLink.addEventListener("click", function (event) {
+        // Eğer bağlantı "disabled" sınıfına sahipse
+        if (nextLink.classList.contains("disabled")) {
+            // Kullanıcıya uyarı ver
+            event.preventDefault(); // Bağlantının tıklanmasını engelle
+            alert("Page NotFound");
+        }
+    });
+</script>
+
+
+

@@ -1,0 +1,49 @@
+﻿@model Category
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="pagetitle">
+    <h1>Categories</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="dashboard" asp-action="index">Dashboard</a></li>
+            <li class="breadcrumb-item"><a asp-controller="category" asp-action="index">Categories</a></li>
+            <li class="breadcrumb-item">@Model.Name</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section">
+    <div class="row">
+
+        <div class="col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Category Edit</h5>
+
+                    <!-- Custom Styled Validation -->
+                    <form class="row g-3 needs-validation" method="post">
+                        <div class="col-md-12">
+                            <label for="validationCustomUsername" class="form-label">Name</label>
+                            <div class="input-group has-validation">
+                                <input type="text" class="form-control" id="validationCustomUsername"
+                                       aria-describedby="inputGroupPrepend" asp-for="Name" value="@Model.Name">
+                                <span class="invalid-feedback" style="display:block" asp-validation-for="Name">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </div>
+                    </form><!-- End Custom Styled Validation -->
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+

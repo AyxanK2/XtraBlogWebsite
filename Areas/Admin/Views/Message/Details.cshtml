@@ -1,0 +1,63 @@
+﻿@model Comment
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="pagetitle">
+    <h1>Messages</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="dashboard" asp-action="index">Dashboard</a></li>
+            <li class="breadcrumb-item"><a asp-controller="message" asp-action="index">Messages</a></li>
+            <li class="breadcrumb-item">Details</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section">
+    <div class="row">
+
+        <div class="col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Message Details</h5>
+
+                    <!-- Custom Styled Validation -->
+                    <form class="row g-3 needs-validation" method="post">
+                        <div class="col-md-12">
+                            <label for="validationCustomUsername" class="form-label">Name</label>
+                            <div class="input-group has-validation">
+                                <input type="text" class="form-control" id="validationCustomUsername"
+                                       aria-describedby="inputGroupPrepend" asp-for="Name" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustomUsername" class="form-label">Email</label>
+                            <div class="input-group has-validation">
+                                <input type="text" class="form-control" id="validationCustomUsername"
+                                       aria-describedby="inputGroupPrepend" asp-for="Email" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustomUsername" class="form-label">Text</label>
+                            <div class="input-group has-validation">
+                                <textarea class="form-control" asp-for="Text" disabled></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                        <div class="col-md-12">
+                            <label for="validationCustomUsername" class="form-label">Post</label>
+                            <div class="input-group has-validation">
+                                <input type="text" class="form-control" id="validationCustomUsername"
+                                       aria-describedby="inputGroupPrepend" asp-for="@Model.Post.Title" disabled>
+                            </div>
+                        </div>
+                            <button class="btn btn-primary" asp-action="index">Back</button>
+                        </div>
+                    </form><!-- End Custom Styled Validation -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

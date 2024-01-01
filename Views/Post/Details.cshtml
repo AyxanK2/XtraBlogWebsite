@@ -1,0 +1,119 @@
+﻿@model PostVM
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="row tm-row">
+    <div class="col-12">
+        <hr class="tm-hr-primary tm-mb-55">
+        <!-- Video player 1422x800 -->
+        <img width="954" height="565" src="~/uploads/posts/@Model.Post.Image" />
+    </div>
+</div>
+<div class="row tm-row">
+    <div class="col-lg-8 tm-post-col">
+        <div class="tm-post-full">
+            <div class="mb-4">
+                <h2 class="pt-2 tm-color-primary tm-post-title">@Model.Post.Title</h2>
+                <p class="tm-mb-40">@Model.Post.Date.ToString("MMMM dd.yyyy") posted by Admin Ayxan</p>
+                @Html.Raw(Model.Post.LongDesc)
+                <span class="d-block text-right tm-color-primary">@(string.Join(",", Model.Post.TagPosts.Select(x => x.Tag.Name)))</span>
+            </div>
+
+            <!-- Comments -->
+            <div>
+                <h2 class="tm-color-primary tm-post-title">Comments</h2>
+                <hr class="tm-hr-primary tm-mb-45">
+                @foreach (Comment comments in Model.Post.Comment.Where(x=>x.Accepted))
+                {
+                    <div class="tm-comment tm-mb-45">
+                        <figure class="tm-comment-figure">
+                            <img src="~/img/comment-1.jpg" alt="Image" class="mb-2 rounded-circle img-thumbnail">
+                            <figcaption class="tm-color-primary text-center">@comments.Name</figcaption>
+                        </figure>
+                        <div>
+                            <p>
+                                @comments.Text
+                            </p>
+                            <div class="d-flex justify-content-between">
+                                <span class="tm-color-primary">@comments.CreatedAt.ToString("MMM dd,yyyy")</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <form asp-action="SendComment" asp-route-slug="@Model.Post.Slug" method="post" class="mb-5 tm-comment-form">
+                    <h2 class="tm-color-primary tm-post-title mb-4">Your comment</h2>
+                    <input type="hidden" value="@TempData["Message"] id="message" />
+                    <div class="mb-4">
+                        <input class="form-control" asp-for="Comment.Name" type="text">
+                    </div>
+                    <div class="mb-4">
+                        <input class="form-control" asp-for="Comment.Email" type="text">
+                    </div>
+                    <div class="mb-4">
+                        <textarea class="form-control" asp-for="Comment.Text" rows="6"></textarea>
+                    </div>
+                    <div class="text-right">
+                        <button class="tm-btn tm-btn-primary tm-btn-small">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <aside class="col-lg-4 tm-aside-col">
+        <div class="tm-post-sidebar">
+            <hr class="mb-3 tm-hr-primary">
+            <h2 class="mb-4 tm-post-title tm-color-primary">Categories</h2>
+            <ul class="tm-mb-75 pl-5 tm-category-list">
+                @foreach (Category category in Model.Categories)
+                {
+                    <li><a href="#" class="tm-color-primary">@category.Name</a></li>
+                }
+
+            </ul>
+            <hr class="mb-3 tm-hr-primary">
+            <h2 class="tm-mb-40 tm-post-title tm-color-primary">Related Posts</h2>
+            @foreach (Post post in Model.RelatiedPosts)
+            {
+                <a asp-route="post-single" asp-route-slug="@post.Slug" class="d-block tm-mb-40">
+                    <figure>
+                        <img src="~/uploads/posts/@post.Image" alt="Image" class="mb-3 img-fluid">
+                        <figcaption class="tm-color-primary">@post.Title</figcaption>
+                    </figure>
+                </a>
+            }
+        </div>
+    </aside>
+</div>
+
+@section CSS{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+}
+
+@section JS{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        let message = document.getElementById('message');
+        if (message.value != '') {
+            toastr["success"](message.value)
+
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+        }
+    </script>
+}

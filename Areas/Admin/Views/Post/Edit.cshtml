@@ -1,0 +1,150 @@
+﻿@model Post
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="pagetitle">
+    <h1>Posts</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="dashboard" asp-action="index">Dashboard</a></li>
+            <li class="breadcrumb-item"><a asp-controller="post" asp-action="index">Posts</a></li>
+            <li class="breadcrumb-item">Post Edit</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section">
+    <div class="row">
+
+        <div class="col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Post Edit</h5>
+
+                    <!-- Custom Styled Validation -->
+                    <form class="row g-3 needs-validation" method="post" enctype="multipart/form-data">
+                        <div class="col-md-12">
+                            <label for="validationCustomUsername" class="form-label">Title</label>
+                            <div class="input-group has-validation">
+                                <input type="text" class="form-control" id="validationCustomUsername"
+                                       aria-describedby="inputGroupPrepend" asp-for="Title">
+                                <span class="invalid-feedback" style="display:block" asp-validation-for="Title">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="validationCustomUsername" class="form-label">Short Description</label>
+                            <div class="input-group has-validation">
+                                <input type="text" class="form-control" id="validationCustomUsername"
+                                       aria-describedby="inputGroupPrepend" asp-for="ShortDesc">
+                                <span class="invalid-feedback" style="display:block" asp-validation-for="ShortDesc">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="validationCustomUsername" class="form-label">Date</label>
+                            <div class="input-group has-validation">
+                                <input class="form-control" id="validationCustomUsername"
+                                       aria-describedby="inputGroupPrepend" asp-for="Date">
+                                <span class="invalid-feedback" style="display:block" asp-validation-for="Date">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="validationCustomUsername" class="form-label">Long Description</label>
+                            <div class="input-group has-validation">
+                                <textarea asp-for="LongDesc" id="editor1" class="form-control"> </textarea>
+                                <span class="invalid-feedback" style="display:block" asp-validation-for="LongDesc">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="validationCustomUsername" class="form-label">Category</label>
+                            <div class="input-group has-validation">
+                                <select class="form-select" asp-for="CategoryId">
+                                    <option>Select a category</option>
+                                    @foreach (Category category in ViewBag.Categories as List<Category>)
+                                    {
+                                        <option value="@category.Id">@category.Name</option>
+                                    }
+                                </select>
+                                <span class="invalid-feedback" style="display:block" asp-validation-for="CategoryId">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="validationCustomUsername" class="form-label">Tags</label>
+                            <div class="input-group has-validation">
+                                <select class="form-select js-example-basic-multiple" multiple asp-for="TagIds">
+                                    @foreach (Tag tag in ViewBag.Tags as List<Tag>)
+                                    {
+                                        if(Model.TagPosts.Any(x=>x.TagId == tag.Id))
+                                        {
+                                            <option selected value="@tag.Id">@tag.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@tag.Id">@tag.Name</option>
+                                        }
+                                    }
+                                </select>
+                                <span class="invalid-feedback" style="display:block" asp-validation-for="TagIds">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="validationCustomUsername" class="form-label">Image</label>
+                            <div class="input-group has-validation">
+                                <input class="form-control" id="validationCustomUsername"
+                                       aria-describedby="inputGroupPrepend" asp-for="File">
+                                <span class="invalid-feedback" style="display:block" asp-validation-for="File">
+                                </span>
+                            </div>
+                            <div style="width:150px ; height:150px">
+                                <img src="~/uploads/posts/@Model.Image" width="150" height="150" />
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </div>
+                    </form><!-- End Custom Styled Validation -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section CSS{
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+}
+
+@section JS{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor1'))
+            .then(editor => {
+                console.log(editor);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        $(document).ready(function () {
+            $('.js-example-basic-multiple').select2();
+        });
+    </script>
+}
+
+
